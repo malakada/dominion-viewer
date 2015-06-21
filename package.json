@@ -10,7 +10,9 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.13.0",
-    "serve-static": "^1.10.0",
+    "serve-static": "^1.10.0"
+  }
+  "devDependencies" {
     "stylus": "^0.51.1"
   }
 }
