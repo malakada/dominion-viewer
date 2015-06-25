@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "dominion-game": "0.0.0",
     "express": "^4.13.0",
     "serve-static": "^1.10.0"
   },
