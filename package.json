@@ -15,6 +15,10 @@
     "yawl": "^1.0.2"
   },
   "devDependencies": {
-    "stylus": "^0.51.1"
+    "browserify": "^10.2.4",
+    "node-jsx": "^0.13.3",
+    "react": "^0.13.3",
+    "stylus": "^0.51.1",
+    "watchify": "^3.2.3"
   }
 }

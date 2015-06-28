@@ -1,0 +1,1 @@
+console.error("Error: Parsing file /Users/mel/apps/personal/dominion-viewer/src/react/dominionClient.jsx: Unexpected token (7:12)");

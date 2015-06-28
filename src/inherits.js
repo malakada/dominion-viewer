@@ -1,3 +1,5 @@
+module.exports = inherits; 
+
 function inherits(ctor, superCtor) {
   ctor.super_ = superCtor;
   ctor.prototype = Object.create(superCtor.prototype, {
