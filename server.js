@@ -3,6 +3,7 @@ var http = require('http');
 var serveStatic = require('serve-static');
 var path = require('path');
 var yawl = require('yawl');
+var dominionGame = require('dominion-game');
 
 var app = express();
 
@@ -19,16 +20,20 @@ var wss = yawl.createServer({
 });
 
 wss.on('error', function(er) {
-  console.error('Web socket is alllll fucked up: ', er.stack);
+  console.error('Error with the websocket: ', er.stack);
 });
 
 wss.on('connection', function(ws) {
-  console.log('someone is joining the party: ');
-
-  ws.sendText(JSON.stringify({
-    name: 'derp',
-    args: Date.now(),
-  }));
+  var players = [{chooseMove: chooseMove}, dominionGame.ais.naive];
+  var seed = Date.now();
+  var game = new dominionGame.DominionGame(players, seed);  
+  
+  console.log('Started a new game with seed ', seed);
+  console.log('game: ', game.players[0].hand);
+  function chooseMove(dominion, state, moveList, callback) {
+    var myHand = state.players[0].hand;
+    console.log('my hand: ', myHand);
+  }
 });
 
 app.use('/', serveStatic(path.join(__dirname, 'public/'))); // magic?
