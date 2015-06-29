@@ -7,7 +7,7 @@ var DominionClient = React.createFactory(require('./react/dominionClient.jsx'));
 
 var mountNode = document.getElementById("container");
 
-React.renderComponent(new DominionClient(), mountNode);
+React.render(<DominionClient />, mountNode);
 
 socket.on('connect', function() {
   // this will happen on connect and also on reconnect.
