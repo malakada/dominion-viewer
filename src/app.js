@@ -3,7 +3,6 @@ var React = require('react');
 
 var socket = new Socket();
 
-//var DominionClient = React.createFactory(require('./react/DominionClient.jsx'));
 var DominionClient = require('./react/DominionClient.jsx');
 
 var mountNode = document.getElementById("container");
