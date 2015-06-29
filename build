@@ -1,3 +1,3 @@
 #!/bin/sh
-./node_modules/.bin/stylus -o public/ -c --include-css src/ --watch &
-./node_modules/.bin/watchify ./src/app.js -v -o ./public/app.js &
+./node_modules/.bin/stylus -o public/ -c --include-css src/
+./node_modules/.bin/browserify -t reactify ./src/app.js -v -o ./public/app.js

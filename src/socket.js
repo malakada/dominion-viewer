@@ -3,6 +3,8 @@ var EventEmitter = require('./event-emitter');
 
 module.exports = Socket;
 
+inherits(Socket, EventEmitter);
+
 function Socket() {
   var self = this;
   EventEmitter.call(self);
