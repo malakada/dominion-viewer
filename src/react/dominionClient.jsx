@@ -1,10 +1,11 @@
 /** @jsx React.DOM */
 
 var React = require('react');
+var BasicCards = require('./BasicCards');
 
 var DominionClient = React.createClass({
   render: function() {
-    return (<div className="hi">test</div>);
+    return (<BasicCards cards={cards} />);
   }
 });
 
