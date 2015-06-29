@@ -5,8 +5,6 @@ var path = require('path');
 var yawl = require('yawl');
 var dominionGame = require('dominion-game');
 
-require('node-jsx').install({ extension: '.jsx' });
-
 var app = express();
 
 var server = http.createServer(app);

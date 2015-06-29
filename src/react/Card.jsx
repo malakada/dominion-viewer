@@ -8,10 +8,11 @@ var Card = React.createClass({
     isPile: React.PropTypes.bool,  
   },
   render: function() {
-    var idName = self.props.isPile ? 'supply-' + self.props.name : '';
+    var idName = (this.props.isPile) ? 'supply-' + this.props.name : '';
+    var className = 'card ' + this.props.name;
 
     return (
-      <div id={idName} className="card {self.props.name}"></div>
+      <div id={idName} className={className}></div>
     );
   }
 });

@@ -1,5 +1,5 @@
 var React = require('react');
-var Card = require('./card');
+var Card = require('./Card.jsx');
 
 var BasicCards = React.createClass({
   propTypes: {
@@ -20,3 +20,5 @@ var BasicCards = React.createClass({
     );
   }
 });
+
+module.exports = BasicCards;
