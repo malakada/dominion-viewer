@@ -30,7 +30,6 @@ wss.on('connection', function(ws) {
   
   console.log('Started a new game with seed ', seed);
   console.log('game: ', game.players[0].hand);
-  // send information (deck, hand, if i go first/the other person's move that has already happened)
 
   ws.sendText(JSON.stringify({
     name: 'playerHand',
@@ -39,7 +38,6 @@ wss.on('connection', function(ws) {
 
   function chooseMove(dominion, state, moveList, callback) {
     var myHand = state.players[0].hand;
-    console.log('my hand: ', myHand);
   }
 
   ws.on('textMessage', function(data) {
@@ -50,7 +48,6 @@ wss.on('connection', function(ws) {
       console.error("received invalid JSON  from web socket: ", er.message);
       return;
     }
-
     // do things with this, like returning new state :P
   });
 });

@@ -7,11 +7,11 @@ var HandCards = React.createClass({
   },
   render: function() {
     var cards = [];
-    
+   
     if (this.props.cards) {
       for (var i = 0; i < this.props.cards.length; i++) {
         var card = this.props.cards[i];
-        cards.push(<Card name={card.name} type={card.type} cost={card.cost} isPile={true} />);
+        cards.push(<Card name={card.name} type={card.type} cost={card.cost} isPile={false} />);
       }
     }
 

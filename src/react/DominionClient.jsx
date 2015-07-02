@@ -54,25 +54,18 @@ var DominionClient = React.createClass({
     });
     
     socket.on('playerHand', function(hand) {
-      self.playerHand(hand);
+      self.setState({
+        playerHand: hand,
+      });
     });
   },
   render: function() {
     return (
      <div>
       <BasicCards cards={this.state.basicCards} />
-      <HandCards card={this.state.playerHand} />  
+      <HandCards cards={this.state.playerHand} />  
       </div>
     );
-  },
-  playerHand: function(hand) {
-    // hooray we have a hand
-    // update state for hand
-    // make hand component
-    // make sure hand component draws things
-    this.setState({
-      playerHand: hand,
-    });
   },
 });
 
