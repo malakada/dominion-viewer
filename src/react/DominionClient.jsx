@@ -2,6 +2,8 @@
 
 var React = require('react');
 var BasicCards = require('./BasicCards.jsx');
+var HandCards = require('./HandCards.jsx');
+var Socket = require('../socket');
 
 var DominionClient = React.createClass({
   getInitialState: function() {
@@ -37,9 +39,41 @@ var DominionClient = React.createClass({
       }],
     }
   },
+  componentDidMount: function() {
+    var socket = new Socket();
+    var self = this;
+
+    socket.on('connect', function() {
+      // this will happen on connect and also on reconnect.
+    });
+
+    socket.on('disconnect', function() {
+    });
+
+    socket.on('error', function() {
+    });
+    
+    socket.on('playerHand', function(hand) {
+      self.playerHand(hand);
+    });
+  },
   render: function() {
-    return (<BasicCards cards={this.state.basicCards} />);
-  }
+    return (
+     <div>
+      <BasicCards cards={this.state.basicCards} />
+      <HandCards card={this.state.playerHand} />  
+      </div>
+    );
+  },
+  playerHand: function(hand) {
+    // hooray we have a hand
+    // update state for hand
+    // make hand component
+    // make sure hand component draws things
+    this.setState({
+      playerHand: hand,
+    });
+  },
 });
 
 module.exports = DominionClient;

@@ -9,7 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "dominion-game": "0.0.0",
+    "dominion-game": "0.0.1",
     "express": "^4.13.0",
     "serve-static": "^1.10.0",
     "yawl": "^1.0.2"
