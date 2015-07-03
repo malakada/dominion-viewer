@@ -11,6 +11,10 @@ var Card = React.createClass({
     var htmlFriendlyName = this.props.name.replace(/ /g,"_");
     var idName = (this.props.isPile) ? 'supply-' + htmlFriendlyName : '';
     var className = 'card ' + htmlFriendlyName;
+    
+    if (this.props.isMini) {
+      className += ' mini';
+    }
 
     return (
       <div id={idName} className={className}></div>

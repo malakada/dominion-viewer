@@ -17,11 +17,16 @@ html, body {
 .card {
   background-repeat: no-repeat;
   background-size: cover;
-  border-bottom: 3px solid black;
+  border-bottom: 0;
   display: inline-block;
-  height: 86px;
+  height: 160px;
   margin: 0 10px 10px 10px;
   width: 100px;
+
+  &.mini {
+    height: 86px;
+    border-bottom: 3px solid black;
+  }
   
   /* Basic Cards */
   &.Platinum {

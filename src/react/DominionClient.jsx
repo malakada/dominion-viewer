@@ -55,8 +55,6 @@ var DominionClient = React.createClass({
     });
   },
   getCardInfo: function(cardName) {
-    console.log('getting card info for: ', cardName);
-    console.log('info: ', this.state.allCards[cardName]);
     return this.state.allCards[cardName];
   },
   render: function() {
