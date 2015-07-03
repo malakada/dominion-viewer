@@ -1,43 +1,18 @@
 /** @jsx React.DOM */
 
 var React = require('react');
+var KingdomCards = require('./KingdomCards.jsx');
 var BasicCards = require('./BasicCards.jsx');
 var HandCards = require('./HandCards.jsx');
 var Socket = require('../socket');
 
 var DominionClient = React.createClass({
   getInitialState: function() {
-   return {
-      basicCards: [{
-        name: 'Estate',
-        cost: '',
-        type: '',
-      },{
-        name: 'Duchy',
-        cost: '',
-        type: '',
-      },{
-        name: 'Province',
-        cost: '',
-        type: '',
-      },{
-        name: 'Curse',
-        cost: '',
-        type: '',
-      },{
-        name: 'Copper',
-        cost: '',
-        type: '',
-      },{
-        name: 'Silver',
-        cost: '',
-        type: '',
-      },{
-        name: 'Gold',
-        cost: '',
-        type: '',
-      }],
-    }
+    return {
+      basicCards: {},
+      kingdomCards: {},
+      playerHand: {},
+    };
   },
   componentDidMount: function() {
     var socket = new Socket();
@@ -53,17 +28,43 @@ var DominionClient = React.createClass({
     socket.on('error', function() {
     });
     
+    socket.on('allCards', function(cards) {
+      var basicCards = [];
+      var kingdomCards = [];
+
+      for (card in cards) {
+        var includeCondition = cards[card].includeCondition;
+        if (includeCondition === 'always') {
+          basicCards.push(card);
+        } else if (includeCondition === 'kingdomCard') {
+          kingdomCards.push(card);
+        }
+      }
+
+      self.setState({
+        allCards: cards,
+        basicCards: basicCards,
+        kingdomCards: kingdomCards,
+      });
+    });
+    
     socket.on('playerHand', function(hand) {
       self.setState({
         playerHand: hand,
       });
     });
   },
+  getCardInfo: function(cardName) {
+    console.log('getting card info for: ', cardName);
+    console.log('info: ', this.state.allCards[cardName]);
+    return this.state.allCards[cardName];
+  },
   render: function() {
     return (
-     <div>
-      <BasicCards cards={this.state.basicCards} />
-      <HandCards cards={this.state.playerHand} />  
+      <div>
+        <BasicCards cards={this.state.basicCards} getCardInfo={this.getCardInfo} />
+        <KingdomCards cards={this.state.kingdomCards} getCardInfo={this.getCardInfo} />
+        <HandCards cards={this.state.playerHand} getCardInfo={this.getCardInfo} />  
       </div>
     );
   },
