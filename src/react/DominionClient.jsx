@@ -18,16 +18,6 @@ var DominionClient = React.createClass({
     var socket = new Socket();
     var self = this;
 
-    socket.on('connect', function() {
-      // this will happen on connect and also on reconnect.
-    });
-
-    socket.on('disconnect', function() {
-    });
-
-    socket.on('error', function() {
-    });
-    
     socket.on('allCards', function(cards) {
       var basicCards = [];
       var kingdomCards = [];
