@@ -11,7 +11,7 @@ var KingdomCards = React.createClass({
     
     for (var i in this.props.cards) {
       var name = this.props.cards[i];
-      cards.push(<Card name={name} getCardInfo={this.props.getCardInfo} isPile={true} isMini={false} />);
+      cards.push(<Card name={name} getCardInfo={this.props.getCardInfo} isPile={true} isMini={false} possibleMoves={this.props.possibleMoves} />);
     }
     
     return(

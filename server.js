@@ -41,25 +41,24 @@ wss.on('connection', function(ws) {
     allCards[card] = formattedCard;
   }
 
-  ws.sendText(JSON.stringify({
-    name: 'allCards',
-    args: allCards,
-  }));
-
-  ws.sendText(JSON.stringify({
-    name: 'playerHand',
-    args: game.players[0].hand,
-  }));
-
-  ws.sendText(JSON.stringify({
-    name: 'gameLoaded',
-  }));
-
   var moveList = game.enumerateMoves();
+
+  sendText('allCards', allCards);
+  sendText('playerHand', game.players[0].hand);
+  sendText('possibleMoves', moveList);
+  sendText('gameLoaded');
+
   console.log('move list: ', moveList);
 
   function chooseMove(dominion, state, moveList, callback) {
     var myHand = state.players[0].hand;
+  }
+
+  function sendText(name, args) {
+    ws.sendText(JSON.stringify({
+      name: name,
+      args: args,
+    }));
   }
 
   ws.on('textMessage', function(data) {

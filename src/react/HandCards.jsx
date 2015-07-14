@@ -12,7 +12,7 @@ var HandCards = React.createClass({
     if (this.props.cards) {
       for (var i = 0; i < this.props.cards.length; i++) {
         var card = this.props.cards[i];
-        cards.push(<Card name={card.name} getCardInfo={this.props.getCardInfo} isPile={false} />);
+        cards.push(<Card name={card.name} getCardInfo={this.props.getCardInfo} isPile={false} possibleMoves={this.props.possibleMoves} />);
       }
     }
 

@@ -47,6 +47,12 @@ var DominionClient = React.createClass({
         hasGame: true,
       });
     });
+
+    socket.on('possibleMoves', function(moves) {
+      self.setState({
+        possibleMoves: moves,
+      });
+    });
   },
   getCardInfo: function(cardName) {
     return this.state.allCards[cardName];
@@ -70,9 +76,9 @@ var DominionClient = React.createClass({
     if (this.state.hasGame) {
       return (
         <div>
-          <BasicCards cards={this.state.basicCards} getCardInfo={this.getCardInfo} />
-          <KingdomCards cards={this.sortCardsByCost(this.state.kingdomCards)} getCardInfo={this.getCardInfo} />
-          <HandCards cards={this.state.playerHand} getCardInfo={this.getCardInfo} />  
+          <BasicCards cards={this.state.basicCards} getCardInfo={this.getCardInfo} possibleMoves={this.state.possibleMoves} />
+          <KingdomCards cards={this.sortCardsByCost(this.state.kingdomCards)} getCardInfo={this.getCardInfo} possibleMoves={this.state.possibleMoves} />
+          <HandCards cards={this.state.playerHand} getCardInfo={this.getCardInfo} possibleMoves={this.state.possibleMoves} />
         </div>
       );
     } else {
