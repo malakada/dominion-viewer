@@ -1,11 +1,25 @@
 var React = require('react');
 
 var Card = React.createClass({
+  getInitialState: function() {
+    return this.updateCardInfo(this.props.name);
+  },
+  componentWillRecieveProps: function(props) {
+    this.updateCardInfo(props.name);
+  },
   propTypes: {
     name: React.PropTypes.string,
-    type: React.PropTypes.object,
-    cost: React.PropTypes.number,
     isPile: React.PropTypes.bool,  
+    isMini: React.PropTypes.bool,
+    getCardInfo: React.PropTypes.func,
+  },
+  updateCardInfo: function(name) {
+    var info = this.props.getCardInfo(name);
+    return {
+      type: info.type,
+      cost: info.cost,
+      count: info.count, 
+    };
   },
   render: function() {
     var htmlFriendlyName = this.props.name.replace(/ /g,"_");
@@ -17,7 +31,9 @@ var Card = React.createClass({
     }
 
     return (
-      <div id={idName} className={className}></div>
+      <div id={idName} className={className}>
+        <div className="count">{this.state.count}</div>
+      </div>
     );
   }
 });

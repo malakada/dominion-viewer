@@ -9,9 +9,7 @@ var Socket = require('../socket');
 var DominionClient = React.createClass({
   getInitialState: function() {
     return {
-      basicCards: {},
-      kingdomCards: {},
-      playerHand: {},
+      hasGame: false,
     };
   },
   componentDidMount: function() {
@@ -43,6 +41,12 @@ var DominionClient = React.createClass({
         playerHand: hand,
       });
     });
+
+    socket.on('gameLoaded', function() {
+      self.setState({
+        hasGame: true,
+      });
+    });
   },
   getCardInfo: function(cardName) {
     return this.state.allCards[cardName];
@@ -63,13 +67,19 @@ var DominionClient = React.createClass({
     return cards;
   },
   render: function() {
-    return (
-      <div>
-        <BasicCards cards={this.state.basicCards} getCardInfo={this.getCardInfo} />
-        <KingdomCards cards={this.sortCardsByCost(this.state.kingdomCards)} getCardInfo={this.getCardInfo} />
-        <HandCards cards={this.state.playerHand} getCardInfo={this.getCardInfo} />  
-      </div>
-    );
+    if (this.state.hasGame) {
+      return (
+        <div>
+          <BasicCards cards={this.state.basicCards} getCardInfo={this.getCardInfo} />
+          <KingdomCards cards={this.sortCardsByCost(this.state.kingdomCards)} getCardInfo={this.getCardInfo} />
+          <HandCards cards={this.state.playerHand} getCardInfo={this.getCardInfo} />  
+        </div>
+      );
+    } else {
+      return (
+        <div>Loading....</div>
+      );
+    }
   },
 });
 

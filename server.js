@@ -28,32 +28,35 @@ wss.on('connection', function(ws) {
   var seed = Date.now();
   var game = new dominionGame.DominionGame(players, seed);  
   
-  console.log('Started a new game with seed ', seed);
-  console.log('game: ', game.players[0].hand);
+  var allCards = {};
+  
+  for (var card in game.cardTable) {
+    var formattedCard = {
+      supply: game.cardTable[card].card.supply,
+      cost: game.cardTable[card].card.cost,
+      type: game.cardTable[card].card.type,
+      includeCondition: game.cardTable[card].card.includeCondition,
+      count: game.cardTable[card].count,
+    };
+    allCards[card] = formattedCard;
+  }
+
+  ws.sendText(JSON.stringify({
+    name: 'allCards',
+    args: allCards,
+  }));
 
   ws.sendText(JSON.stringify({
     name: 'playerHand',
     args: game.players[0].hand,
   }));
 
-  var allCards = {};
-  
-  for(var card in game.cardTable) {
-    var formattedCard = {
-      supply: game.cardTable[card].card.supply,
-      cost: game.cardTable[card].card.cost,
-      type: game.cardTable[card].card.type,
-      includeCondition: game.cardTable[card].card.includeCondition,
-    };
-    allCards[card] = formattedCard;
-  }
-
-  console.log('allcards: ', allCards);
-
   ws.sendText(JSON.stringify({
-    name: 'allCards',
-    args: allCards,
+    name: 'gameLoaded',
   }));
+
+  var moveList = game.enumerateMoves();
+  console.log('move list: ', moveList);
 
   function chooseMove(dominion, state, moveList, callback) {
     var myHand = state.players[0].hand;

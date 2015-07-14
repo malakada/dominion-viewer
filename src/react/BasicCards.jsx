@@ -11,8 +11,7 @@ var BasicCards = React.createClass({
     
     for (var i in this.props.cards) {
       var name = this.props.cards[i];
-      var card = this.props.getCardInfo(this.props.cards[i]);
-      cards.push(<Card name={name} type={card.type} cost={card.cost} isPile={true} isMini={true} />);
+      cards.push(<Card name={name} getCardInfo={this.props.getCardInfo} isPile={true} />);
     }
     
     return(
