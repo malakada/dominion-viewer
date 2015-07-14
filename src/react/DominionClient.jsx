@@ -57,7 +57,7 @@ var DominionClient = React.createClass({
         return -1;
       if (cardA.cost > cardB.cost)
         return 1;
-      return 0; 
+      return 0;
     });
 
     return cards;
