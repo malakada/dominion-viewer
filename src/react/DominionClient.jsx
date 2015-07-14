@@ -48,21 +48,19 @@ var DominionClient = React.createClass({
     return this.state.allCards[cardName];
   },
   sortCardsByCost: function(cards) {
-    if (cards instanceof Array) {
-      var self = this;
-      cards.sort(function(a, b) {
-        var cardA = self.getCardInfo(a);
-        var cardB = self.getCardInfo(b);
+    var self = this;
+    cards.sort(function(a, b) {
+      var cardA = self.getCardInfo(a);
+      var cardB = self.getCardInfo(b);
 
-        if (cardA.cost < cardB.cost)
-          return -1;
-        if (cardA.cost > cardB.cost)
-          return 1;
-        return 0; 
-      });
+      if (cardA.cost < cardB.cost)
+        return -1;
+      if (cardA.cost > cardB.cost)
+        return 1;
+      return 0; 
+    });
 
-      return cards;
-    }
+    return cards;
   },
   render: function() {
     return (
