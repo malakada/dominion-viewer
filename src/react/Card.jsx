@@ -1,26 +1,15 @@
 var React = require('react');
 
 var Card = React.createClass({
-  getInitialState: function() {
-    return this.updateCardInfo(this.props.name);
-  },
-  componentWillRecieveProps: function(props) {
-    this.updateCardInfo(props.name);
-  },
   propTypes: {
     name: React.PropTypes.string,
     isPile: React.PropTypes.bool,  
     isMini: React.PropTypes.bool,
-    getCardInfo: React.PropTypes.func,
     possibleMoves: React.PropTypes.array,
-  },
-  updateCardInfo: function(name) {
-    var info = this.props.getCardInfo(name);
-    return {
-      type: info.type,
-      cost: info.cost,
-      count: info.count, 
-    };
+    makeMove: React.PropTypes.func,
+    type: React.PropTypes.string,
+    cost: React.PropTypes.number,
+    count: React.PropTypes.number,
   },
   isPurchasable: function() {
     var purchasable = false;
@@ -31,6 +20,10 @@ var Card = React.createClass({
       }
     }
     return purchasable;
+  },
+  onPurchaseClick: function() {
+    var move = { name: 'buy', params: { card: this.props.name } };
+    this.props.makeMove(move);
   },
   render: function() {
     var htmlFriendlyName = this.props.name.replace(/ /g,"_");
@@ -45,8 +38,8 @@ var Card = React.createClass({
 
     return (
       <div id={idName} className={className}>
-        <div className="count">{this.state.count}</div>
-        <div className={purchaseClass}>+</div>
+        <div className="count">{this.props.count}</div>
+        <div className={purchaseClass} onClick={this.onPurchaseClick}>+</div>
       </div>
     );
   }

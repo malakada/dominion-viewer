@@ -6,6 +6,8 @@ var BasicCards = require('./BasicCards.jsx');
 var HandCards = require('./HandCards.jsx');
 var Socket = require('../socket');
 
+var socket = new Socket();
+
 var DominionClient = React.createClass({
   getInitialState: function() {
     return {
@@ -13,7 +15,7 @@ var DominionClient = React.createClass({
     };
   },
   componentDidMount: function() {
-    var socket = new Socket();
+    //var socket = new Socket();
     var self = this;
 
     socket.on('allCards', function(cards) {
@@ -72,13 +74,16 @@ var DominionClient = React.createClass({
 
     return cards;
   },
+  makeMove: function(move) {
+    socket.send('move', move);
+  },
   render: function() {
     if (this.state.hasGame) {
       return (
         <div>
-          <BasicCards cards={this.state.basicCards} getCardInfo={this.getCardInfo} possibleMoves={this.state.possibleMoves} />
-          <KingdomCards cards={this.sortCardsByCost(this.state.kingdomCards)} getCardInfo={this.getCardInfo} possibleMoves={this.state.possibleMoves} />
-          <HandCards cards={this.state.playerHand} getCardInfo={this.getCardInfo} possibleMoves={this.state.possibleMoves} />
+          <BasicCards cards={this.state.basicCards} getCardInfo={this.getCardInfo} possibleMoves={this.state.possibleMoves} makeMove={this.makeMove} />
+          <KingdomCards cards={this.sortCardsByCost(this.state.kingdomCards)} getCardInfo={this.getCardInfo} possibleMoves={this.state.possibleMoves} makeMove={this.makeMove} />
+          <HandCards cards={this.state.playerHand} getCardInfo={this.getCardInfo} possibleMoves={this.state.possibleMoves} makeMove={this.makeMove} />
         </div>
       );
     } else {
