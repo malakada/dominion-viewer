@@ -45,6 +45,9 @@ wss.on('connection', function(ws) {
   function sendState() {
     var allCards = {};
     var moveList = game.enumerateMoves();
+
+    printGameState(game);
+    printPossibleMoves(moveList);
     
     for (var card in game.cardTable) {
       var formattedCard = {
@@ -74,9 +77,89 @@ wss.on('connection', function(ws) {
 
     if (msg.name === 'move') {
       game.performMove(msg.args);
-      sendState();
+      dominionGame.ais.naive.chooseMove(dominionGame.dominion, game, game.enumerateMoves(), aiMadeMove);
+
+      function aiMadeMove(er, move) {
+        if (er) {
+          throw(er);
+        }
+
+        printGameState(game);
+        printPossibleMoves(game.enumerateMoves());
+
+        game.performMove(move);
+        sendState();
+      }
     }
   });
 });
 
 app.use('/', serveStatic(path.join(__dirname, 'public/'))); // magic?
+
+function printPossibleMoves(moveList) {
+  console.log("Possible moves:");
+  for (var i = 0; i < moveList.length; i += 1) {
+    var move = moveList[i];
+    console.log("(" + (i + 1) + ") " + dominionGame.moveToString(move));
+  }
+  if (moveList.length === 0) {
+    console.log("(none)");
+  }
+}
+
+function printGameState(state) {
+  console.log("");
+  console.log("Round " + (state.roundIndex + 1) + ", turn " + (state.turnIndex + 1));
+  var i;
+  for (i = 0; i < state.cardList.length; i += 1) {
+    var gameCard = state.cardList[i];
+    console.log("(" + gameCard.card.cost + ") " + gameCard.count + "_" + gameCard.card.name);
+  }
+  console.log("Trash: " + deckToString(state.trash, true));
+  for (i = 0; i < state.players.length; i += 1) {
+    var player = state.players[i];
+    var vp = state.calcVictoryPoints(player);
+    var cardCount = state.playerCardCount(player);
+    console.log(dominionGame.playerName(player) + " (" + vp + " victory points, " + cardCount + " cards):");
+    console.log("      revealed: " + deckToString(player.revealedCards, false));
+    console.log("       in play: " + deckToString(player.inPlay, false));
+    console.log("          deck: " + deckToString(player.deck, true));
+    console.log("          hand: " + deckToString(player.hand, true));
+    console.log("  discard pile: " + deckToString(player.discardPile, true));
+  }
+  console.log("Waiting for " + dominionGame.playerName(state.getCurrentPlayer()) + " to " + state.stateIndexToString());
+  console.log("Actions: " + state.actionCount +
+           "   Buys: " + state.buyCount +
+           "   Treasure: " + state.treasureCount);
+}
+
+function deckToString(deck, compress) {
+  if (deck.length === 0) return "(empty)";
+  if (!compress) {
+    return deck.map(dominionGame.getCardName).join(" ");
+  }
+  var counts = {};
+  for (var i = 0; i < deck.length; i += 1) {
+    var card = deck[i];
+    counts[card.name] = (counts[card.name] == null) ? 1 : (counts[card.name] + 1);
+  }
+  var names = Object.keys(counts);
+  names.sort(compare);
+  for (i = 0; i < names.length; i += 1) {
+    var count = counts[names[i]];
+    if (count > 1) {
+      names[i] = counts[names[i]] + "_" + names[i];
+    }
+  }
+  return names.join(" ");
+}
+
+function compare(a, b){
+  if (a === b) {
+    return 0;
+  } else if (a < b) {
+    return -1;
+  } else {
+    return 1;
+  }
+}
