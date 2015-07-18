@@ -27,9 +27,32 @@ wss.on('connection', function(ws) {
   var players = [{chooseMove: chooseMove}, dominionGame.ais.naive];
   var seed = Date.now();
   var game = new dominionGame.DominionGame(players, seed);  
+  var playerMoveCallback = null;
 
-  sendState();
-  sendText('gameLoaded');
+  ws.on('textMessage', onTextMessage);
+
+  mainLoop();
+
+  function mainLoop() {
+    printGameState(game);
+    
+    var player = game.getCurrentPlayer();
+    var moveList = game.enumerateMoves();
+
+    printPossibleMoves(moveList);
+
+    player.ai.chooseMove(dominionGame.dominion, game, moveList, onMoveChosen);
+
+    function onMoveChosen(er, move) {
+      if (er) throw er;
+      console.error(dominionGame.playerName(player) + ' chooses: ' + dominionGame.moveToString(move));
+
+      game.performMove(move);
+      setImmediate(function(){
+        mainLoop(game);
+      });
+    }
+  }
 
   function sendText(name, args) {
     ws.sendText(JSON.stringify({
@@ -39,7 +62,8 @@ wss.on('connection', function(ws) {
   }
 
   function chooseMove(dominion, state, moveList, callback) {
-    var myHand = state.players[0].hand;
+    sendState();
+    playerMoveCallback = callback;
   }
 
   function sendState() {
@@ -63,9 +87,10 @@ wss.on('connection', function(ws) {
     sendText('allCards', allCards);
     sendText('playerHand', game.players[0].hand);
     sendText('possibleMoves', moveList);
+    sendText('gameLoaded');
   }
 
-  ws.on('textMessage', function(text) {
+  function onTextMessage(text) {
     var msg;
     
     try {
@@ -76,22 +101,9 @@ wss.on('connection', function(ws) {
     }
 
     if (msg.name === 'move') {
-      game.performMove(msg.args);
-      dominionGame.ais.naive.chooseMove(dominionGame.dominion, game, game.enumerateMoves(), aiMadeMove);
-
-      function aiMadeMove(er, move) {
-        if (er) {
-          throw(er);
-        }
-
-        printGameState(game);
-        printPossibleMoves(game.enumerateMoves());
-
-        game.performMove(move);
-        sendState();
-      }
+      playerMoveCallback(null, msg.args);
     }
-  });
+  };
 });
 
 app.use('/', serveStatic(path.join(__dirname, 'public/'))); // magic?
