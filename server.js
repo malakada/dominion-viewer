@@ -87,6 +87,7 @@ wss.on('connection', function(ws) {
     sendText('allCards', allCards);
     sendText('playerHand', game.players[0].hand);
     sendText('possibleMoves', moveList);
+    sendText('inPlayCards', game.players[0].inPlay);
     sendText('gameLoaded');
   }
 

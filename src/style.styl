@@ -25,6 +25,8 @@ html, body {
   width: 15px;
 }
 
+.card .play { display: none; }
+
 #handCardContainer {
   bottom: 0;
   position: absolute;
@@ -32,6 +34,9 @@ html, body {
   .card {
     .count, .purchase {
       display: none;
+    }
+    .play {
+      display: inline-block;
     }
   }
 }
@@ -69,6 +74,13 @@ html, body {
     right: 0;
   }
 
+  .play {
+    background-color: #535BD4;
+    border-color: rgba(109, 109, 109, 0.3);
+    color: rgba(0, 0, 0, 0.5);
+    width: auto;
+  }
+
   .purchase {
     background-color: rgb(22, 140, 22);
     border-color: darkgreen;
@@ -76,11 +88,6 @@ html, body {
     font-weight: bold;  
   }
 
-  &.mini {
-    height: 86px;
-    border-bottom: 3px solid black;
-  }
-  
   /* Basic Cards */
   &.Platinum {
     background-image: url('img/200px-Platinum-new.jpg');

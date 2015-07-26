@@ -1,9 +1,8 @@
-/** @jsx React.DOM */
-
 var React = require('react');
 var KingdomCards = require('./KingdomCards.jsx');
 var BasicCards = require('./BasicCards.jsx');
 var HandCards = require('./HandCards.jsx');
+var InPlayCards = require('./InPlayCards.jsx');
 var Socket = require('../socket');
 
 var socket = new Socket();
@@ -15,7 +14,6 @@ var DominionClient = React.createClass({
     };
   },
   componentDidMount: function() {
-    //var socket = new Socket();
     var self = this;
 
     socket.on('allCards', function(cards) {
@@ -55,6 +53,12 @@ var DominionClient = React.createClass({
         possibleMoves: moves,
       });
     });
+
+    socket.on('inPlayCards', function(cards) {
+      self.setState({
+        inPlayCards: cards,
+      });
+    });
   },
   getCardInfo: function(cardName) {
     return this.state.allCards[cardName];
@@ -83,6 +87,7 @@ var DominionClient = React.createClass({
         <div>
           <BasicCards cards={this.state.basicCards} getCardInfo={this.getCardInfo} possibleMoves={this.state.possibleMoves} makeMove={this.makeMove} />
           <KingdomCards cards={this.sortCardsByCost(this.state.kingdomCards)} getCardInfo={this.getCardInfo} possibleMoves={this.state.possibleMoves} makeMove={this.makeMove} />
+          <InPlayCards cards={this.state.inPlayCards} getCardInfo={this.getCardInfo} />
           <HandCards cards={this.state.playerHand} getCardInfo={this.getCardInfo} possibleMoves={this.state.possibleMoves} makeMove={this.makeMove} />
         </div>
       );
