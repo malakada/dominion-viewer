@@ -30,7 +30,7 @@ var Card = React.createClass({
     var idName = (this.props.isPile) ? 'supply-' + htmlFriendlyName : '';
     var className = 'card ' + htmlFriendlyName;
 
-    var purchaseClass = 'purchase' + ((!this.isPurchasable()) ? ' hide' : ''); 
+    var purchaseClass = 'circle-badge purchase' + ((!this.isPurchasable()) ? ' hide' : ''); 
     
     if (this.props.isMini) {
       className += ' mini';
@@ -38,7 +38,8 @@ var Card = React.createClass({
 
     return (
       <div id={idName} className={className}>
-        <div className="count">{this.props.count}</div>
+        <div className="circle-badge count">{this.props.count}</div>
+        <div className="circle-badge cost">{this.props.cost}</div>
         <div className={purchaseClass} onClick={this.onPurchaseClick}>+</div>
       </div>
     );

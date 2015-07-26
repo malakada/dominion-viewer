@@ -18,10 +18,19 @@ html, body {
   display: none;
 }
 
+.circle-badge {
+  border: 1px solid;
+  border-radius: 100%;
+  display: inline-block;
+  margin: 2px;
+  padding: 2px;
+  text-align: center;
+  width: 15px;
+}
+
 #handCardContainer {
   bottom: 0;
   position: absolute;
-  text-align: center;
   
   .card {
     .count, .purchase {
@@ -47,30 +56,28 @@ html, body {
   position: relative;
   width: 100px;
 
+  .cost {
+    background-color: #EED050;
+    border-color: rgba(0,0,0,0.3)
+    bottom: 0px;
+    color: #444;
+    position: absolute;
+  }
+
   .count {
     background-color: rgb(127, 146, 186);
-    border: 1px solid rgb(94, 129, 239);
-    border-radius: 100%;
+    border-color: rgb(94, 129, 239);
     bottom: 0px;
     color: rgb(44, 44, 44);
-    display: inline-block;
     left: 0;
-    margin: 2px;
-    padding: 2px;
     position: absolute;
   }
 
   .purchase {
     background-color: rgb(22, 140, 22);
-    border: 1px solid darkgreen;
-    border-radius: 100%;
+    border-color: darkgreen;
     color: white;
-    float: left;
     font-weight: bold;  
-    width: 15px;
-    text-align: center;
-    padding: 2px;
-    margin: 2px;
   }
 
   &.mini {
