@@ -14,16 +14,13 @@ html, body {
   width: 100%;
 }
 
-.hide {
-  display: none;
-}
-
 .circle-badge {
   border: 1px solid;
   border-radius: 100%;
   display: inline-block;
   margin: 2px;
   padding: 2px;
+  position: absolute;
   text-align: center;
   width: 15px;
 }
@@ -61,7 +58,7 @@ html, body {
     border-color: rgba(0,0,0,0.3)
     bottom: 0px;
     color: #444;
-    position: absolute;
+    right: 0;
   }
 
   .count {
@@ -70,7 +67,6 @@ html, body {
     bottom: 0px;
     color: rgb(44, 44, 44);
     left: 0;
-    position: absolute;
   }
 
   .purchase {
@@ -190,4 +186,8 @@ html, body {
   &.Workshop {
     background-image: url('img/200px-Workshop.jpg');
   }
+}
+
+.hide {
+  display: none;
 }
