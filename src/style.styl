@@ -19,10 +19,21 @@ html, body {
 }
 
 #handCardContainer {
+  bottom: 0;
+  position: absolute;
+  text-align: center;
+  
   .card {
     .count, .purchase {
       display: none;
     }
+  }
+}
+
+#basicCardSupply {
+  .card {
+    height: 80px;
+    border-bottom: 3px solid black;
   }
 }
 
@@ -33,20 +44,20 @@ html, body {
   display: inline-block;
   height: 160px;
   margin: 0 10px 10px 10px;
+  position: relative;
   width: 100px;
 
   .count {
     background-color: rgb(127, 146, 186);
     border: 1px solid rgb(94, 129, 239);
     border-radius: 100%;
-    bottom: -133px;
+    bottom: 0px;
     color: rgb(44, 44, 44);
     display: inline-block;
-    float: right;
+    left: 0;
     margin: 2px;
     padding: 2px;
-    position: relative;
-    right: 0;
+    position: absolute;
   }
 
   .purchase {
@@ -172,10 +183,4 @@ html, body {
   &.Workshop {
     background-image: url('img/200px-Workshop.jpg');
   }
-}
-
-#handCardContainer {
-  bottom: 0;
-  position: absolute;
-  text-align: center;
 }
